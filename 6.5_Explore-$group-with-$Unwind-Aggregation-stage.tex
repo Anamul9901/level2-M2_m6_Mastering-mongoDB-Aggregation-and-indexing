@@ -1,0 +1,32 @@
+1:
+db.test.aggregate([
+    {
+        $group: {_id: "$friends"}
+        // $group: {_id: "$friends", count:{$sum: 1}}
+    }
+])
+---> friends hole array. aivabe ekta array k group korle sobgula alada alada array k grup korbe. grup er nam gula k alada alada group korbe nah. tai aivabe use kore kaje asbe nah.
+
+2: [uporer problem ta $unwind dia solve kora jai]
+db.test.aggregate([
+        // stage-1
+        {$unwind: "$friends"},
+        //stage-2
+    {
+        $group: {_id: "$friends", count: {$sum: 1}}
+    }
+])
+---> array k sorasory venge group kora jai nah. er jonno $unwind use korte hoi. ekn ekta nam document er mije koibar ase ta ber hoye ek ekta goup e vag hoye jabe.
+
+
+3:
+db.test.aggregate([
+        // stage-1
+        {$unwind: "$interests"},
+        //stage-2
+        {
+            $group: { _id: "$age", interestsPerAge: {$push: "$interests"}}
+        }
+])
+---> aikhane ake age er all member der sob interests k ekta array banye debe. 
+[note: ake age er 2 jon er interest e gamming thakle gamming 2 bar dekhabe. mane joobar ekta data thakbe totobar oi data ta array e dekhabe]

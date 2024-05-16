@@ -1,0 +1,14 @@
+1:
+db.orders.aggregate([
+    {
+        $lookup: {
+               from: "test",
+               localField: "userId",
+               foreignField: "_id",
+               as: "___User___"
+             }
+    }
+    ])
+    ---> jode emon hoi je ku web theke onekgula product kine. r se ke ke product kense segulu user er database e save rakte hoy, tahole user e collection e save korbo nah. alada collection create kore user e Id soho save korbo, jeno user er id deye tar buy kora product ber kora jay sohoje.(karon ueser er collection e save korle data find e time base lagbe)
+
+    r 2 collection er data eksathe korar jonno $lookup use kora hoi. $lookup er maddome user er product er maije tar data o dekhanu jai.

@@ -1,0 +1,86 @@
+1:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: null,
+        }
+    }
+])
+---> $group er _id te null use korle sobgula collection-data ekta group(null) e add hoye jabe.
+
+2:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: null,
+            totalSalary: { $sum: "$salary" }
+        }
+    }
+])
+---> $sum use kore sum kora jai. aikhane $salary use korar karone null group er all membar er salary sum hoye dekhabe.
+
+3:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: null,
+            totalSalary: { $sum: "$salary" },
+            maxSalar: { $max: "$salary"},
+            minSalary: {$min: "$salary"},
+            avgSalary: {$avg: "$salary"}
+        }
+    }
+])
+---> totalSalary, maxSalary, minSalary, avgSalary show korbe
+
+4:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: null,
+            totalSalary: { $sum: "$salary" },
+            maxSalary: { $max: "$salary" },
+            minSalary: { $min: "$salary" },
+            avgSalary: { $avg: "$salary" }
+        }
+    },
+    //stage-2
+    {
+        $project: {
+            totalSalary: 1,
+            maxSalary: 1,
+            minSalary: 1,
+            avarageSAlary: "$avgSalary"
+        }
+    }
+])
+---> project e nam chang kore o lekha jai, avarageSAlary er moto.
+
+4.2:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: null,
+            totalSalary: { $sum: "$salary" },
+            maxSalary: { $max: "$salary" },
+            minSalary: { $min: "$salary" },
+            avgSalary: { $avg: "$salary" }
+        }
+    },
+    //stage-2
+    {
+        $project: {
+            totalSalary: 1,
+            maxSalary: 1,
+            minSalary: 1,
+            avarageSAlary: "$avgSalary",
+            rangeBetweenMaxAndMin: {$subtract: ["$maxSalary","$minSalary"]}
+        }
+    }
+])
+---> $project e $subtract use kore 2 ta number er minus ber kora jai.

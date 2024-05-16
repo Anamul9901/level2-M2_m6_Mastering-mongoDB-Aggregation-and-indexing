@@ -1,0 +1,12 @@
+// text indexing(find a word)
+// je field er upor search base hoi se field er jonno ai search index user korte pare.
+
+--> task: je je data er about e 'dolor' text ta thakbe oi oi data dekhau.
+
+stape:1
+about er jonno ekta text index banate hobe.
+db.getCollection("massive-data").createIndex({about: "text"})
+
+stape: 2
+db.getCollection("massive-data").find({ $text: { $search: "dolor" } }).project({about:1})
+

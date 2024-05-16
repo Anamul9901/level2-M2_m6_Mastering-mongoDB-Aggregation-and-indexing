@@ -1,0 +1,42 @@
+1:
+db.test.aggregate([
+    //stage-1
+    { $match: { gender: "Male" } },
+    //stage-2
+    {$addFields: {course: "level-2", eduTech: "Programming Hero"}},
+    //stage-3
+    { $project: { gender: 1, course: 1, eduTech:1 } }
+])
+
+---> addFields er maddome new data add kora jai. eikhane prottec Male uala data te course r eduTech field data gulu add kora hoise.
+[note: addFields er maddome data add korle main(original) collection e data change hoi nah. just new ekata data collection create kore return kore dey]
+
+//---------------------------
+2:
+db.test.aggregate([
+    //stage-1
+    { $match: { gender: "Male" } },
+    //stage-2
+    { $addFields: { course: "level-2", eduTech: "Programming Hero" } },
+    //stage-3
+    { $project: { gender: 1, course: 1, eduTech: 1 } },
+    //stage-4
+    { $out: "Course-students" }
+])
+---> $out er maddome 'Course-students' name ekta collection create hobe. collection e gender, course r eduTech er data dekhabe.
+[note: stage-3 '$project' er line na lekle all data soho 'Course-students' collection e add korbe]
+
+3:
+db.test.aggregate([
+    //stage-1
+    { $match: { gender: "Male" } },
+    //stage-2
+    { $addFields: { course: "level-2", eduTech: "Programming Hero" } },
+    //stage-3
+    { $project: { gender: 1, course: 1, eduTech: 1 } },
+    //stage-4
+    { $merge: "test" }
+])
+
+---> $merge er maddome main collection(test) e data add kora jai. aikhane test collection er sobgula mail uala data gulate course, eduTech er data add hobe.
+[note: stage-1($match) er line na lekhle all test er data te course, eduTech er data add hob]

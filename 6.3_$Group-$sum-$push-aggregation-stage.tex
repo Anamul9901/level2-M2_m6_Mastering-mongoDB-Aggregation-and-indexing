@@ -1,0 +1,60 @@
+1.1:
+db.test.aggregate([
+    //stage-1
+    {$group:{_id: "$gender"}}
+])
+---> $group e ekta id lekte hobe. id ta kun data er upor depend kore hobe ta $ diye select kore dete-hobe($gender). ekn gender er upor depend kore group hoye jabe. same gender gulu ek group e add hobe.
+
+1.2:
+db.test.aggregate([
+    //stage-1
+    {$group:{_id: "$address.country"}}
+])
+
+2:
+db.test.aggregate([
+    //stage-1
+    {$group:{_id: "$age", count:{$sum:1}}}
+])
+
+--->$sum:1 er maddome count kora jai je ek grou e koita same data ase.
+
+3.1:
+db.test.aggregate([
+    //stage-1
+    {$group:{_id: "$age", count:{$sum:1}, AmakEmailDekhau: {$push: "$email"}}}
+])
+---> $push er maddome group er sobgula data er nerrdisto data dekhanu jai. aikhane email dekhanu holo. (like: group er sobgula membar er email dekhabe)
+
+3.2:
+db.test.aggregate([
+    //stage-1
+    {$group:{
+        _id: "$age", 
+        count:{$sum:1}, 
+        fullDoc: {$push: "$$ROOT"}
+        }}
+])
+---> grup er sob data membar er all data dekte chaile $push: "$$ROOT" use korte hoi.
+
+4:
+db.test.aggregate([
+    //stage-1
+    {
+        $group: {
+            _id: "$age",
+            count: { $sum: 1 },
+            fullDoc: { $push: "$$ROOT" }
+        }
+    },
+    // stage-2
+    {
+        $project: {
+            "fullDoc.name": 1,
+            "fullDoc.email": 1,
+            "fullDoc.phone": 1
+        }
+    }
+])
+---> group er all member er name, email r phone dekhabe.
+[find er ketre .limit(2) use korte hoi, project er moto]

@@ -1,0 +1,33 @@
+---> indexing mane holo amora book er konu chapter e ke ase ta ber korar jonno book er 1st page e index dua thake, jar maddome sohoje book er kuty ke ase ta khuje ber korte pare.
+
+---> mongodb er index o same. Mongodb er _id default ovosty index dua thake. tai _id dia data find korle khub taratare data ber hoye jai.
+
+---> index er maddome taratare data find korak IDHACK bole, r page by page, line by line data find korak COLLSCAN bole.
+
+---> index dia data find korle tar stage k IDHACK bole, r onnokisu dia data find korle tar stage k COLLSCAN  bole.
+
+//---------------------------------
+1: IDHACK stage. karon _id index.
+db.test.find({_id : ObjectId("6406ad63fc13ae5a40000065")}).explain("executionStats")
+
+2: COLLSCAN stage. karon email index kora nah.
+db.test.find({	email : "weffnert2r@networkadvertising.org"}).explain("executionStats")
+-->['explain("executionStas")' er maddome sob ber kora jai. like: er stage, koto ms-time lagbe, etc]
+//----------------------------------
+
+---> _id bade onno field k o amora index banate pare(like: email, name, etc). joto base index banabo toto base memory lagbe. tai proujon er base bananu uchit nah.
+
+//--------------------------------
+3:
+db.massivedata.createIndex({email:1})
+or
+db.getCollection("massive-data").createIndex({email:1})
+---> aivabe jekonu field k index kora jai. eikhane email k korlm.
+
+4: 
+db.massivedata.find({email:"gofffrye@flexigen.com"}).explain("executionStats")
+or 
+db.getCollection("massive-data").find({email:"gofffrye@flexigen.com"}).explain("executionStats")
+//--------------------------------
+
+

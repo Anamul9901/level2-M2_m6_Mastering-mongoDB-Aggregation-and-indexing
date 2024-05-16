@@ -1,0 +1,33 @@
+// Aggregate
+1.1:
+db.test.find({
+    gender: "Male" , age: {$lt: 30}
+})
+---> find err maddome aivabe data ber kore
+
+1.2:
+db.test.aggregate([
+    //stage-1
+    { $match: { gender: "Male" , age: {$lt: 30}} }
+])
+---> aggregate er maddome aivabe data find korte hoi
+
+//------------------------------------------------------
+
+2.1:
+db.test.find({
+    gender: "Male", age: {$lt: 30}
+}).project({
+    name: 1,
+    gender:1,
+    age: 1
+})
+
+2.2:
+db.test.aggregate([
+    //stage-1
+    { $match: { gender: "Male", age: { $lt: 30 } } },
+    //stage-2
+    { $project: { name: 1, age: 1, gender: 1 } }
+])
+
